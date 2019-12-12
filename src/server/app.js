@@ -15,7 +15,8 @@ app.get('/list', (req, res) => {
 });
 
 app.get('/download/:filename', (req, res) => {
-    console.log(req.params.filename);
+    const path = `${__dirname}/templates/${req.params.filename}`;
+    res.download(path);
 });
 
 app.get('/get_templates', (req, res) => {
