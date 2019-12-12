@@ -1,10 +1,9 @@
 {
-  "name": "doc-assist-app",
+  "name": "app",
   "version": "1.0.0",
-  "description": "App for Doc Assist",
-  "main": "app.js",
+  "description": "JLT Challenge Desktop App",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
   },
   "author": "",
