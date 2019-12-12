@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="./jquery.js"></script>
+        <meta charset="UTF-8">
+        <title>Select Template</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+        <style>
+            .header {
+                color: black;
+                font-size: 2em;
+                font-weight: 400;
+                text-align: center;
+            }
+
+            #fetch_files {
+                text-align: center;
+            }
+
+            .file {
+                margin: 0 auto;
+                display: block;
+                padding: 15px 0 15px 0;
+                color: black;
+                font-size: 1.2em;
+            }
+
+            .file:hover {
+                background: silver;
+                text-decoration: none;
+                color: black;
+                font-size: 1.2em;
+            }
+
+            hr {
+                margin-bottom: 0;
+            }
+
+            .hr-mod {
+                margin: 0;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="header pt-3">
+            AVAILABLE TEMPLATES
+        </div>
+        <hr>
+        <div id="fetch_files"></div>
+      
+        <script src="./getTemplates.js"></script>
+    </body>
+</html>

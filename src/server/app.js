@@ -1,9 +1,11 @@
+const testFolder = './templates/';
 const fs = require('fs');
 const express = require('express');
 const app = express();
 app.get('/', (req, res)=>{
-    req.send("Doc Assist");
+    res.send("Doc Assist");
 })
+
 app.get('/list', (req, res) => {
     res.json([
         { "name": "cpp.cpp" },
@@ -11,9 +13,17 @@ app.get('/list', (req, res) => {
         { "name": "js.js" },
     ]);
 });
+
 app.get('/download/:filename', (req, res) => {
     console.log(req.params.filename);
 });
-app.listen(3000, () => {
 
+app.get('/get_templates', (req, res) => {
+    op = [];
+    fs.readdirSync(testFolder).forEach(file => {
+        op.push(file);
+    });
+    res.send(op);
 });
+
+app.listen(3000);
