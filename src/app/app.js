@@ -11,9 +11,14 @@ function createWindow() {
     win.loadFile('index.html')
     const request = net.request('http://localhost:3000/list')
     request.on('response', (response) => {
+        let html = "";
         if (response.statusCode == 200) {
             response.on('data', (chunk) => {
-                console.log(JSON.parse(chunk))
+                filesList = JSON.parse(chunk);
+                for(let i=0;i<filesList.length;i++) {
+                    html += `<a href='http:localhost:3000/download/${filesList[i].name}>${filesList[i].name}</a>`
+                }
+                // TODO Modify document.getElementById("filesList").innerHTML to the html string
             })
         } else {
             console.log(response.statusMessage)
