@@ -1,45 +1,70 @@
 let fields = null
 let file = null
 
-function generateDataFields(){
-    
-    let {remote} = require("electron")
+function generateDataFields() {
+    let { remote } = require("electron")
     file = remote.getGlobal("getFilename")()
     remote.getGlobal("setFilename")(null)
 
-    let python = require('child_process').spawn('python', [__dirname+"../app/python/parse.py",__dirname+"/templates/"+file]);
-    python.stdout.on('data',function(dump){
+    let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", __dirname + "/templates/" + file]);
+    // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\parse.py", __dirname + "\\templates\\" + file]);
+    python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
-        fields = JSON.parse(dump)
-        let data_fields = document.getElementById("data-fields")
-        let inner_html = ""
-        for(let key in fields){
-            inner_html += `<div class="form-group">
-            <label for="${fields[key]}">${fields[key]}</label>
-            <textarea class="form-control" id="${fields[key]}" rows="3"></textarea>
-            </div>`
+        let status = String(dump).substr(0, dump.indexOf("\n")).trim();
+        console.log(status);
+        let data = dump.substring(dump.indexOf("\n") + 1).trim();
+        if (status == "True") {
+            fields = JSON.parse(data);
+            let data_fields = document.getElementById("data-fields")
+            let inner_html = ""
+            for (let key in fields) {
+                inner_html += `<div class="form-group">
+                <label for="${fields[key]}">${fields[key]}</label>
+                <textarea class="form-control" id="${fields[key]}" rows="3"></textarea>
+                </div>`
+            }
+            data_fields.innerHTML = inner_html
+        } else {
+            alert(data);
         }
-        data_fields.innerHTML = inner_html
     });
-
+    python.stderr.on('data', (data) => {
+        console.error(data.toString());
+    });
+    python.on('exit', (code) => {
+        console.log(`Process exited with code ${code}`);
+    });
 }
 
 let userData = {}
 
-function PassTheDataFields(){
-    for(let key in fields){
+function PassTheDataFields() {
+    for (let key in fields) {
         let data_field = document.getElementById(`${fields[key]}`)
         let data = data_field.value
-        userData[fields[key]] = data
+        userData[key] = data
     }
     let userDataStr = JSON.stringify(userData)
-    let python = require('child_process').spawn('python', [__dirname+"../app/python/doc_assist.py",__dirname+"/templates/"+file,userDataStr]);
-    python.stdout.on('data',function(dump){
+    console.log(userData)
+    let python = require('child_process').spawn('python', [__dirname + "/../python/doc_assist.py", __dirname + "/templates/" + file, userDataStr]);
+    // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
+    python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
-        console.log(dump)
-        fields = JSON.parse(dump)
-        console.log(fields)
+        let status = String(dump).substr(0, dump.indexOf("\n")).trim();
+        console.log(status);
+        let data = dump.substring(dump.indexOf("\n") + 1).trim();
+        if (status == "True") {
+            alert("The generated file is: " + data);
+        } else {
+            alert("Error: " + data);
+        }
     })
+    python.stderr.on('data', (data) => {
+        console.error(data.toString());
+    });
+    python.on('exit', (code) => {
+        console.log(`Process exited with code ${code}`);
+    });
 }
 
 generateDataFields()

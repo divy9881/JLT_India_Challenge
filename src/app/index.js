@@ -1,11 +1,12 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const fs = require('fs');
 const http = require('http');
 
 let win
+Menu.setApplicationMenu(false)
 
-function createWindow () {
-  
+function createWindow() {
+
   win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -16,7 +17,7 @@ function createWindow () {
 
   win.loadFile('index.html');
 
-  win.setMenu(null);
+  // win.setMenu(null);
 
   win.webContents.openDevTools()
 
@@ -41,37 +42,37 @@ app.on('activate', () => {
 
 let file = null
 
-global.store = function(url, file) {
+global.store = function (url, file) {
   http.request(url)
-    .on('response', function(res) {
+    .on('response', function (res) {
       var body = ''
       res.setEncoding('binary')
       res
-        .on('error', function(err) {
+        .on('error', function (err) {
           callback(err)
         })
-        .on('data', function(chunk) {
+        .on('data', function (chunk) {
           body += chunk
         })
-        .on('end', function() {
+        .on('end', function () {
           var path = `${__dirname}/templates/${file}`
-          fs.writeFile(path, body, 'binary', function(err) {
-            console.log("Done");
+          fs.writeFile(path, body, 'binary', function (err) {
+            console.log("Downloaded File");
           })
         })
     })
-    .on('error', function(err) {
+    .on('error', function (err) {
       console.log("Error")
     })
     .end();
 }
 
-global.setFilename = function(filename){
-    file = filename
-    console.log(file)
+global.setFilename = function (filename) {
+  file = filename
+  console.log("setFilename", file)
 }
 
-global.getFilename = function(){
-    console.log(file)
-    return file
+global.getFilename = function () {
+  console.log("getFilename", file)
+  return file
 }

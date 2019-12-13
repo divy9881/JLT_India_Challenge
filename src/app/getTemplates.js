@@ -5,13 +5,13 @@ async function main() {
 }
 let divEle = document.getElementById("fetch_files");
 
-if(divEle !== null){
-    main();    
+if (divEle !== null) {
+    main();
 }
 
-function addFiles(files) {    
+function addFiles(files) {
     files.forEach(file => {
-        divEle.innerHTML +=   `
+        divEle.innerHTML += `
             <!-- <a href="http://localhost:3000/download/${file}" class="file">${file}</a> -->
             <a onclick="storeTemplate('${file}')" class="file">${file}</a>
             <hr class="hr-mod">
@@ -26,7 +26,7 @@ async function storeTemplate(file) {
     // const data = await res.setEncoding('binary');
     // console.log(data);
 
-    
+
 
     // body = '';
     // res.setEncoding('binary')
@@ -42,8 +42,8 @@ async function storeTemplate(file) {
     //     hello;
     // })   
 
-    let {remote} = require('electron');
+    let { remote } = require('electron');
     const store = remote.getGlobal("store")(`http://localhost:3000/download/${file}`, file);
     remote.getGlobal("setFilename")(file)
-    document.location = __dirname+"/template-data-fields.html"
+    document.location = __dirname + "/template-data-fields.html"
 }
