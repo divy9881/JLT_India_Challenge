@@ -39,6 +39,8 @@ app.on('activate', () => {
   }
 })
 
+let file = null
+
 global.store = function(url, file) {
   http.request(url)
     .on('response', function(res) {
@@ -62,4 +64,14 @@ global.store = function(url, file) {
       console.log("Error")
     })
     .end();
+}
+
+global.setFilename = function(filename){
+    file = filename
+    console.log(file)
+}
+
+global.getFilename = function(){
+    console.log(file)
+    return file
 }

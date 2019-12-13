@@ -3,10 +3,13 @@ async function main() {
     const data = await res.json();
     addFiles(data);
 }
-main();
+let divEle = document.getElementById("fetch_files");
 
-function addFiles(files) {
-    let divEle = document.getElementById("fetch_files");
+if(divEle !== null){
+    main();    
+}
+
+function addFiles(files) {    
     files.forEach(file => {
         divEle.innerHTML +=   `
             <!-- <a href="http://localhost:3000/download/${file}" class="file">${file}</a> -->
@@ -15,6 +18,8 @@ function addFiles(files) {
         `;
     });
 }
+
+let fields = null
 
 async function storeTemplate(file) {
     // const res = await fetch(`http://localhost:3000/download/${file}`);
@@ -39,5 +44,6 @@ async function storeTemplate(file) {
 
     let {remote} = require('electron');
     const store = remote.getGlobal("store")(`http://localhost:3000/download/${file}`, file);
-    store;
+    remote.getGlobal("setFilename")(file)
+    document.location = __dirname+"/template-data-fields.html"
 }

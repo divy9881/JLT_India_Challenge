@@ -1,17 +1,11 @@
 {
-  "name": "app",
+  "name": "doc_assist",
   "version": "1.0.0",
-  "description": "JLT Challenge Desktop App",
+  "description": "The Desktop app for DocAssist",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^7.1.4"
-  },
-  "dependencies": {
-    "ejs": "^3.0.1"
-  }
+  "author": "DIVY PATEL <divy9881@gmail.com>",
+  "license": "MIT"
 }
