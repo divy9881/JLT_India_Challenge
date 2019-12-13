@@ -6,7 +6,7 @@ function generateDataFields() {
     file = remote.getGlobal("getFilename")()
     remote.getGlobal("setFilename")(null)
 
-    let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", __dirname + "/templates/" + file]);
+    let python = require('child_process').spawn('python3', [__dirname + "/../python/parse.py", __dirname + "/templates/" + file]);
     // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\parse.py", __dirname + "\\templates\\" + file]);
     python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
@@ -46,7 +46,7 @@ function PassTheDataFields() {
     }
     let userDataStr = JSON.stringify(userData)
     console.log(userData)
-    let python = require('child_process').spawn('python', [__dirname + "/../python/doc_assist.py", __dirname + "/templates/" + file, userDataStr]);
+    let python = require('child_process').spawn('python3', [__dirname + "/../python/doc_assist.py", __dirname + "/templates/" + file, userDataStr]);
     // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
     python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
