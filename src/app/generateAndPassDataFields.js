@@ -4,7 +4,7 @@ let file = null
 function generateDataFields() {
     let { remote } = require("electron")
     file = remote.getGlobal("getFilename")()
-    remote.getGlobal("setFilename")(null)
+    //remote.getGlobal("setFilename")(null)
 
     let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", __dirname + "/templates/" + file]);
     python.on('error', (error) => {
