@@ -13,6 +13,7 @@
 
         <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
 
+        <script src="./generateAndPassDataFields.js"></script>
         <style>
             * {
                 margin: 0;
@@ -25,7 +26,8 @@
     <body>
 
         <div class="jumbotron" style="text-align:center; font-size:2em;">
-            TEMPLATE DATA FIELDS
+            Enter the data in the fields or import the csv file through 
+            <button type="button" style="display:block;margin-left:auto;margin-right:auto;" id = "select-file" class="btn btn-outline-dark" >Select the file</button>
         </div>
 
         <div class="container">
@@ -33,13 +35,12 @@
                 
             </div>
         </div>
-
-        <script src="./generateAndPassDataFields.js"></script>
+        
         <div class="ins_the_fields">
                 <button type="button" style="display:block;margin-left:auto;margin-right:auto;"class="btn btn-outline-dark my-3" onclick="PassTheDataFields()">INSERT THE FIELDS</button>
         </div>
 
-
+        <script src="./showDialog.js"></script>
     </body>
 
 </html>
