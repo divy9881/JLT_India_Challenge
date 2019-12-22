@@ -15,14 +15,20 @@ def read_csv(template_file, csv_file):
     try:
         with open(csv_file, mode='r') as infile:
             reader = csv.reader(infile)
-            fields = reader.next()
+            # fields = reader[0]
+            # print(fields)
+            line_count = 0
             for rows in reader:
-                i = 0
-                kvp = dict()
-                for row in rows:
-                    kvp[fields[i]] = row
-                    i = i + 1
-                main(template_file, kvp)
+                if line_count == 0:
+                    fields = rows
+                    line_count = line_count + 1
+                else:
+                    i = 0
+                    kvp = dict()
+                    for row in rows:
+                        kvp[fields[i]] = row
+                        i = i + 1
+                    main(template_file, kvp)
 
     except OSError:
         print("Error File Not Found")
