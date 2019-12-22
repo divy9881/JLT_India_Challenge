@@ -42,7 +42,7 @@ def create_doc(template_file, key_values, output_name):
         document = Document(template_file)
 
         for para in document.paragraphs:
-            regex = [(r"«([a-zA-Z0-9_+ -])*»", 1), (r"<<([a-zA-Z0-9_+ -])*>>", 2)]
+            regex = [(r"«([a-zA-Z0-9_+ -&.])*»", 1), (r"<<([a-zA-Z0-9_+ -&.])*>>", 2)]
             for r in regex:
                 matches = re.finditer(r[0], para.text, re.MULTILINE)
                 for m in reversed(list(matches)):
