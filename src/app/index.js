@@ -57,22 +57,22 @@ global.store = function (url, file) {
         .on('end', function () {
           var path = `${__dirname}/templates/${file}`
           fs.writeFile(path, body, 'binary', function (err) {
-            console.log("Downloaded File");
+            //console.log("Downloaded File");
           })
         })
     })
     .on('error', function (err) {
-      console.log("Error")
+      //console.log("Error")
     })
     .end();
 }
 
 global.setFilename = function (filename) {
   file = filename
-  console.log("setFilename", file)
+  //console.log("setFilename", file)
 }
 
 global.getFilename = function () {
-  console.log("getFilename", file)
+  //console.log("getFilename", file)
   return file
 }

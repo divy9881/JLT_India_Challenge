@@ -4,6 +4,7 @@ let file = null
 function generateDataFields() {
     let { remote } = require("electron")
     file = remote.getGlobal("getFilename")()
+
     //remote.getGlobal("setFilename")(null)
 
     let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", file]);
@@ -18,7 +19,7 @@ function generateDataFields() {
     python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
         let status = String(dump).substr(0, dump.indexOf("\n")).trim();
-        console.log(status);
+        //console.log(status);
         let data = dump.substring(dump.indexOf("\n") + 1).trim();
         if (status == "True") {
             fields = JSON.parse(data);
@@ -52,8 +53,8 @@ function PassTheDataFields() {
         userData[key] = data
     }
     let userDataStr = JSON.stringify(userData)
-    console.log(userData)
-    let python = require('child_process').spawn('python', [__dirname + "/../python/doc_assist.py", __dirname + "/templates/" + file, userDataStr]);
+    //console.log(userData)
+    let python = require('child_process').spawn('python', [__dirname + "/../python/main_json.py",file, userDataStr]);
     // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
     python.on('error', (error) => {
         dialog.showMessageBox({
@@ -65,7 +66,7 @@ function PassTheDataFields() {
     python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
         let status = String(dump).substr(0, dump.indexOf("\n")).trim();
-        console.log(status);
+        //console.log(status);
         let data = dump.substring(dump.indexOf("\n") + 1).trim();
         if (status == "True") {
             alert("The generated file is: " + data);

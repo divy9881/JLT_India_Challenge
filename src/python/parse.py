@@ -34,6 +34,4 @@ if __name__ == '__main__':
     import sys
 
     main(sys.argv[1])
-    # main(os.getcwd() + '\\files\\templates\\Template.docx')
-    # main(os.getcwd() + '\\files\\templates\\demo.docx')
     sys.stdout.flush()
