@@ -10,8 +10,9 @@ local_btn.addEventListener("click", function(){
             extensions:["docx"]
         }]
     }).then(function(docxFile){
-        if(docxFile === undefined){
-            alert("No file was selected")
+        
+        if(docxFile === undefined || docxFile.filePaths.length === 0){
+            alert("NO FILE WAS SELECTED.")
             return
         }
         else{
@@ -22,7 +23,7 @@ local_btn.addEventListener("click", function(){
 
             remote.getGlobal("setFilename")(filepath)
 
-            alert(filename + " has been selected to generate the output documents.")
+            alert("\"" + filename + "\" HAS BEEN SELECTED TO GENERATE THE OUTPUT DOCUMENT.")
 
             document.location = __dirname + "/template-data-fields.html"
         }
