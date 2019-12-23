@@ -9,8 +9,8 @@ let selectFileButton = document.querySelector("#select-file")
 selectFileButton.addEventListener("click",function(){
     dialog.showOpenDialog({
         filters:[{
-            name:"CSV FILE",
-            extensions:["csv"]
+            name:"DATA INPUT FILE",
+            extensions:["csv","json","xml"]
         }]
     }).then(function(csvFile){
         if(csvFile === undefined || csvFile.filePaths.length === 0){
@@ -32,7 +32,7 @@ selectFileButton.addEventListener("click",function(){
 
             //console.log(file, filepath)
             
-            let python = require('child_process').spawn('python', [__dirname + "/../python/main_csv.py", file, filepath]);
+            let python = require('child_process').spawn('python', [__dirname + "/../python/main_file_input.py", file, filepath]);
             // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
             python.on('error', (error) => {
                 dialog.showMessageBox({
