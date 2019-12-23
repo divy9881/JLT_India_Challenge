@@ -5,6 +5,8 @@ import sys
 import re
 import json
 from docx.shared import Pt
+import xmltodict
+import pprint
 
 count = 1
 
@@ -25,6 +27,7 @@ def read_csv(template_file, csv_file):
                 else:
                     i = 0
                     kvp = dict()
+                    print(rows)
                     for row in rows:
                         kvp[fields[i]] = row
                         i = i + 1
@@ -63,24 +66,24 @@ def create_doc(template_file, key_values, output_name):
 
                     if header == "":
                         if data is not None:
-                            para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end()+1:]
                             style = document.styles['Normal']
                             font = style.font
                             font.name = 'Arial'
                             font.size = Pt(10)
                             para.styles = document.styles['Normal']
+                            para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end() + 1:]
                     else:
                         if data is not None:
-                            para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end()+1:]
                             style = document.styles['Normal']
                             font = style.font
                             font.name = 'Arial'
                             font.size = Pt(10)
                             para.styles = document.styles['Normal']
+                            para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end() + 1:]
                             header_paragraph = para.insert_paragraph_before(data)
-                            header_paragraph.text = header
                             font.size = Pt(15)
                             header_paragraph.styles = document.styles['Normal']
+                            header_paragraph.text = header
 
         document.save(output_name)
     except Exception as e:
@@ -125,6 +128,30 @@ def main_json_str(template_file: str, json_str: str):
         print(repr(e))
 
 
+def main_json_object(template_file: str, json_file: str):
+    try:
+        with open(json_file) as f:
+            key_values = json.load(f)
+            # json_str = json_str.replace("\n", "\\n")
+            # json_str = json_str.replace("\t", "\\t")
+            # key_values: dict = json.loads(json_str)
+            for val in key_values["data"]:
+                main(template_file, val)
+    except json.JSONDecodeError as e:
+        print(False)
+        print(repr(e))
+
+
+def main_xml_object(template_file: str, xml_file: str):
+    with open(xml_file) as f:
+        key_values = xmltodict.parse(f.read())
+        for i, j in key_values.items():
+            for k,m in j.items():
+                kvp = dict()
+                for n,q in m.items():
+                    kvp[n] = q
+                main(template_file, kvp)
+                
 # if __name__ == '__main__':
 
     # main_json_str(sys.argv[1], sys.argv[2])   
