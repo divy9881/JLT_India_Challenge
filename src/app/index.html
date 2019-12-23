@@ -18,22 +18,34 @@
     <body>
 
     <!-- <div class="container-fluid pt-4"> -->
-        <div class="jumbotron" style="text-align: center;">
-            <div class="display-4">
-                JLT CHALLENGE 2019
+        <div class="container-fluid">
+            <div class="jumbotron" style="text-align: center;margin-top:10px;">
+                <div class="display-4">
+                    JLT CHALLENGE 2019
+                </div>
             </div>
         </div>
 
-        <div style="display: flex;">
-            <a class="btn btn-outline-dark" style="margin: 0 auto;" href="available_templates.html">
-                SELECT TEMPLATE
-            </a>
+        <div style="text-align:center">
+
+            <span style="margin-right:10px;">
+                <a class="btn btn-outline-dark" style="margin: 0 auto;" href="available_templates.html">
+                    SELECT TEMPLATE FROM SERVER
+                </a>
+            </span>
+
+            <span>
+                <button class="btn btn-outline-dark" id="local-btn" style="margin: 0 auto; margin-left:10px;">
+                    SELECT TEMPLATE FROM LOCAL
+                </button>
+            </span>
+            
         </div>
-    <!-- </div> -->
-        
-    
+
         <script src="./jquery.js"></script>
+        <script src="./selectLocalTemplate.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+
     </body>
 </html>

@@ -6,7 +6,7 @@ function generateDataFields() {
     file = remote.getGlobal("getFilename")()
     //remote.getGlobal("setFilename")(null)
 
-    let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", __dirname + "/templates/" + file]);
+    let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", file]);
     python.on('error', (error) => {
         dialog.showMessageBox({
             title: 'Title',

@@ -1,1 +1,0 @@
-print('{"hello":"world", "divy":"patel","aliabbas":"merchant"}')
