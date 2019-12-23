@@ -4,6 +4,12 @@ let {dialog} = require("electron").remote
 
 let selectFileButton = document.querySelector("#select-file")
 
+let backButton = document.querySelector("#back")
+
+backButton.addEventListener("click", function(){
+    document.location = __dirname + "/index.html"
+})
+
 //console.log(selectFileButton)
 
 selectFileButton.addEventListener("click",function(){
@@ -28,7 +34,7 @@ selectFileButton.addEventListener("click",function(){
 
             let { remote } = require("electron")
             let file = remote.getGlobal("getFilename")()
-            remote.getGlobal("setFilename")(null)
+            // remote.getGlobal("setFilename")(null)
 
             //console.log(file, filepath)
             
