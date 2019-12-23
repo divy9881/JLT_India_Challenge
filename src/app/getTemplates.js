@@ -25,6 +25,6 @@ let fields = null
 async function storeTemplate(file) {
     let { remote } = require('electron');
     const store = remote.getGlobal("store")(`http://localhost:3000/download/${file}`, file);
-    remote.getGlobal("setFilename")(__dirname + "/templates/" + file)
+    remote.getGlobal("setFilename")(__dirname + "\\templates\\" + file)
     document.location = __dirname + "/template-data-fields.html"
 }

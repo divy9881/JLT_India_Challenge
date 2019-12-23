@@ -30,9 +30,9 @@ selectFileButton.addEventListener("click",function(){
             let file = remote.getGlobal("getFilename")()
             remote.getGlobal("setFilename")(null)
 
-            console.log(__dirname + "/templates/" + file, filepath)
+            console.log(file, filepath)
             
-            let python = require('child_process').spawn('python', [__dirname + "/../python/doc_assist.py", __dirname + "/templates/" + file, filepath]);
+            let python = require('child_process').spawn('python', [__dirname + "/../python/doc_assist.py", file, filepath]);
             // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
             python.on('error', (error) => {
                 dialog.showMessageBox({
