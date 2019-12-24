@@ -27,7 +27,7 @@ def read_csv(template_file, csv_file):
                 else:
                     i = 0
                     kvp = dict()
-                    print(rows)
+                    #print(rows)
                     for row in rows:
                         kvp[fields[i]] = row
                         i = i + 1
