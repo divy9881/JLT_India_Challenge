@@ -1,11 +1,14 @@
 # JLT_India_Challenge
 
 
-## Tasks
-- [ ] Extract entities from templates.
-- [ ] Populate the entities with its corresponding values from .csv, Excel or SQL database.
-- [ ] Format the output file according to template file given.
-- [ ] Incorporate batch processing feature in the appication.
-- [ ] Develop front-end desktop application for scripts.
-- [ ] Implement server for template file access.
-- [ ] Prepare SRS document for application.
+## TO-DO
+- [ ] Deliver the output document to the desired folder.
+- [ ] Data file conversion feature
+- [ ] Database to output documents
+- [ ] Formatting of the output document
+- [ ] Table and Image population
+- [ ] Support multiple output formats
+- [ ] User interactive UI/UX
+- [ ] Login and Signup page
+- [ ] Integrating NLP model to map the data with the template fields.
+- [ ] API
