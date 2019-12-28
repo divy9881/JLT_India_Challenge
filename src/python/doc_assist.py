@@ -7,6 +7,9 @@ import json
 from docx.shared import Pt
 import xmltodict
 import pprint
+from docx.enum.style import WD_STYLE_TYPE
+from bs4 import BeautifulSoup
+import codecs
 
 count = 1
 
@@ -37,19 +40,94 @@ def read_csv(template_file, csv_file):
         exit()
 
 
+def remove_row(table, row):
+    tbl = table._tbl
+    tr = row._tr
+    tbl.remove(tr)
+
+
+def make_table(output_file, table_data, table_header):
+    document = Document()
+    rows = 1 + len(table_data)
+    col = len(table_header)
+    table = document.add_table(rows, col, style="Table Grid")
+
+    # populate header row -------`-
+    heading_cells = table.rows[0].cells
+    for i in range(len(heading_cells)):
+        heading_cells[i].text = table_header[i]
+
+    row1 = table.rows[1]
+    remove_row(table, row1)
+    row1 = table.rows[1]
+    remove_row(table, row1)
+
+    # add a data row for each item
+    for data in table_data:
+        cells = table.add_row().cells
+        for i in range(len(cells)):
+            cells[i].text = data[i]
+
+    document.save(output_file)
+
+def read_html(template_file, html_file):
+    try:
+        f = codecs.open(html_file, 'r')
+        html = f.read()
+        soup = BeautifulSoup(html, features="lxml")
+        table = soup.find("table", attrs={"class":"details"})
+
+        # The first tr contains the field names.
+        headings = [th.get_text() for th in table.find("tr").find_all("th")]
+
+        datasets = []
+        for row in table.find_all("tr")[1:]:
+            dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
+            datasets.append(dataset)
+
+        table_header = []
+        table_data = []
+        count = 0
+        for dataset in datasets:
+            data = []
+            for field in dataset:
+                if count == 0:
+                    table_header.append(field[0])
+                    data.append(field[1])
+                else :
+                    data.append(field[1])
+            count = count + 1
+            table_data.append(data)
+
+        make_table(template_file, table_data, table_header)
+
+    except OSError:
+        print("Error File Not Found")
+        exit()
+    
+
 def replacer(match: re.Match, kvp: dict, char: int = 2) -> (str, str):
     # text -> the whole line
     got = match.string[match.start() + char: match.end() - char]
     # got -> the matching text inside << >>
     if got[0] == "+":
         keys = got.split('+')
+        if len(keys) > 3:
+            data = keys[3].strip()
+        else :
+            data = kvp.get(got)
         text_header = keys[2].upper().strip()
-        data = kvp.get(got)
         return text_header, data
     else:
         data = kvp.get(got)
         text_header = ""
         return text_header, data
+
+
+
+def move_table_after(table, paragraph):
+    tbl, p = table._tbl, paragraph._p
+    p.addnext(tbl)
 
 
 def create_doc(template_file, key_values, output_name):
@@ -65,24 +143,35 @@ def create_doc(template_file, key_values, output_name):
 
                     if header == "":
                         if data is not None:
-                            style = document.styles['Normal']
-                            font = style.font
-                            font.name = 'Arial'
-                            font.size = Pt(10)
-                            para.styles = document.styles['Normal']
                             para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end() + 1:]
                     else:
                         if data is not None:
-                            style = document.styles['Normal']
-                            font = style.font
-                            font.name = 'Arial'
-                            font.size = Pt(10)
-                            para.styles = document.styles['Normal']
-                            para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end() + 1:]
-                            header_paragraph = para.insert_paragraph_before(data)
-                            font.size = Pt(15)
-                            header_paragraph.styles = document.styles['Normal']
-                            header_paragraph.text = header
+                            rc = data.split('_')
+                            if len(rc) > 1:
+                                rows = int(rc[0])
+                                col = int(rc[1])
+                                # style = document.styles['Heading 1']
+                                # font = style.font
+                                # font.name = 'Arial'
+                                # font.size = Pt(15)
+                                # para.style = document.styles['Heading 1']
+                                # para.text = header
+                                table = document.add_table(rows, col)
+                                move_table_after(table, para)
+                            else:
+                                style = document.styles['Normal']
+                                font = style.font
+                                font.name = 'Arial'
+                                font.size = Pt(10)
+                                para.style = document.styles['Normal']
+                                para.text = para.text[:m.start()] + str(data) + " " + para.text[m.end() + 1:]
+                                header_paragraph = para.insert_paragraph_before(data)
+                                style = document.styles['Heading 1']
+                                font = style.font
+                                font.name = 'Arial'
+                                font.size = Pt(15)
+                                header_paragraph.style = document.styles['Heading 1']
+                                header_paragraph.text = header
 
         document.save(output_name)
     except Exception as e:
@@ -131,9 +220,6 @@ def main_json_object(template_file: str, json_file: str):
     try:
         with open(json_file) as f:
             key_values = json.load(f)
-            # json_str = json_str.replace("\n", "\\n")
-            # json_str = json_str.replace("\t", "\\t")
-            # key_values: dict = json.loads(json_str)
             for val in key_values["data"]:
                 main(template_file, val)
     except json.JSONDecodeError as e:
@@ -151,7 +237,7 @@ def main_xml_object(template_file: str, xml_file: str):
                     kvp[n] = q
                 main(template_file, kvp)
                 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 
     # main_json_str(sys.argv[1], sys.argv[2])   
     # main_json_str(os.getcwd() + '\\files\\templates\\demo.docx',
@@ -160,8 +246,9 @@ def main_xml_object(template_file: str, xml_file: str):
     # main_kvp_file(os.getcwd() + '\\files\\templates\\Template.docx', os.getcwd() + '\\files\\kvp\\demo2.csv')
 
     # main_kvp_file(sys.argv[1], sys.argv[2])
-# main_kvp_file(os.getcwd() + '\\files\\templates\\demo.docx', os.getcwd() + '\\files\\kvp\\demo2.csv')
-# sys.stdout.flush()
+    main_kvp_file(os.getcwd() + '\\files\\templates\\Template.docx', os.getcwd() + '\\files\\kvp\\demo2.csv')
+    # read_html(os.getcwd() + '\\files\\html\\Table.docx', os.getcwd() + '\\files\\html\\demo.html')
+    sys.stdout.flush()
 
     # main_kvp_file(os.getcwd() + '\\files\\templates\\Template.docx', os.getcwd() + '\\files\\kvp\\demo2.csv')
 
