@@ -9,7 +9,7 @@ def main(template_file):
         document = Document(template_file)
         kvp = dict()
         for para in document.paragraphs:
-            regex = [(r"«([a-zA-Z0-9_+ &.-])*»", 1), (r"<<([a-zA-Z0-9_+ &.-])*>>", 2)]
+            regex = [(r"«([a-zA-Z0-9_+ -&.])*»", 1), (r"<<([a-zA-Z0-9_+ -]&.)*>>", 2)]
             for r in regex:
                 matches = re.finditer(r[0], para.text, re.MULTILINE)
                 for m in reversed(tuple(matches)):

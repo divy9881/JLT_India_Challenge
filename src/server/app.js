@@ -6,14 +6,6 @@ app.get('/', (req, res)=>{
     res.send("Doc Assist");
 })
 
-app.get('/list', (req, res) => {
-    res.json([
-        { "name": "cpp.cpp" },
-        { "name": "py.py" },
-        { "name": "js.js" },
-    ]);
-});
-
 app.get('/download/:filename', (req, res) => {
     const path = `${__dirname}/templates/${req.params.filename}`;
     res.download(path);
