@@ -186,7 +186,7 @@ def main(template_file: str, key_values: dict, output_folder: str):
     template_ext = get_extension(template_file)
     if template_ext == "docx":
         # output_name = template_file[:template_file.rindex('.')] + '-output_' + str(count) + '.' + template_ext
-        output_name = output_folder + template_file[template_file.rindex("//"):template_file.rindex(
+        output_name = output_folder + template_file[template_file.rindex("\\"):template_file.rindex(
             '.')] + '-output_' + str(count) + '.' + template_ext
         count = count + 1
         ok, error = create_doc(template_file, key_values, output_name)

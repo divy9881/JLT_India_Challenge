@@ -50,7 +50,8 @@ function callPythonScript(file, filepath) {
             alert("NO FILE WAS SELECTED.")
             callPythonScript(file, filepath)
         } else {
-            let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\main_file_input.py", file, filepath, outputFolder]);
+            const outputFolderPath = outputFolder.filePaths[0]
+            let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\main_file_input.py", file, filepath, outputFolderPath]);
             python.on('error', (error) => {
                 dialog.showMessageBox({
                     title: 'Error',
@@ -68,6 +69,7 @@ function callPythonScript(file, filepath) {
                     alert("Successfully Generated the Document(s).");
                 } else {
                     alert("Error: " + data);
+                    console.log(data)
                 }
             })
 
