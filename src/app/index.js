@@ -18,7 +18,7 @@ function createWindow() {
   win.loadFile('index.html');
 
     // win.setMenu(null);
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
   win.on('closed', () => {
     win = null
@@ -40,6 +40,7 @@ app.on('activate', () => {
 })
 
 let file = null
+let inputForConverter = null
 
 global.store = function (url, file) {
   http.request(url)
@@ -74,4 +75,12 @@ global.setFilename = function (filename) {
 global.getFilename = function () {
   //console.log("getFilename", file)
   return file
+}
+
+global.setInputForConverter = function (filename) {
+  inputForConverter = filename
+}
+
+global.getInputForConverter = function () {
+  return inputForConverter
 }

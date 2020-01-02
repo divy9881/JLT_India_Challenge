@@ -1,3 +1,5 @@
+let { dialog } = require("electron").remote
+
 let fields = null
 let file = null
 
@@ -7,15 +9,14 @@ function generateDataFields() {
 
     //remote.getGlobal("setFilename")(null)
 
-    let python = require('child_process').spawn('python', [__dirname + "/../python/parse.py", file]);
+    let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\parse.py", file]);
     python.on('error', (error) => {
         dialog.showMessageBox({
-            title: 'Title',
+            title: 'Error',
             type: 'warning',
             message: 'Error occured.\r\n' + error
         });
     });
-    // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\parse.py", __dirname + "\\templates\\" + file]);
     python.stdout.on('data', function (dump) {
         dump = dump.toString('utf8')
         let status = String(dump).substr(0, dump.indexOf("\n")).trim();
@@ -47,39 +48,48 @@ function generateDataFields() {
 let userData = {}
 
 function PassTheDataFields() {
-    for (let key in fields) {
-        let data_field = document.getElementById(`${fields[key]}`)
-        let data = data_field.value
-        userData[key] = data
-    }
-    let userDataStr = JSON.stringify(userData)
-    //console.log(userData)
-    let python = require('child_process').spawn('python', [__dirname + "/../python/main_json.py",file, userDataStr]);
-    // let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", __dirname + "\\templates\\" + file, userDataStr]);
-    python.on('error', (error) => {
-        dialog.showMessageBox({
-            title: 'Title',
-            type: 'warning',
-            message: 'Error occured.\r\n' + error
-        });
-    });
-    python.stdout.on('data', function (dump) {
-        dump = dump.toString('utf8')
-        let status = String(dump).substr(0, dump.indexOf("\n")).trim();
-        //console.log(status);
-        let data = dump.substring(dump.indexOf("\n") + 1).trim();
-        if (status == "True") {
-            alert("The generated file is: " + data);
+    dialog.showOpenDialog({
+        properties: ['openDirectory']
+    }).then(function (file) {
+        if (file === undefined || file.filePaths.length === 0) {
+            alert("NO FILE WAS SELECTED.")
+            PassTheDataFields()
         } else {
-            alert("Error: " + data);
+            let outputFolder = file.filePaths[0]
+            for (let key in fields) {
+                let data_field = document.getElementById(`${fields[key]}`)
+                let data = data_field.value
+                userData[key] = data
+            }
+            let userDataStr = JSON.stringify(userData)
+            //console.log(userData)
+            let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", file, userDataStr, outputFolder]);
+            python.on('error', (error) => {
+                dialog.showMessageBox({
+                    title: 'Error',
+                    type: 'warning',
+                    message: 'Error occured.\r\n' + error
+                });
+            });
+            python.stdout.on('data', function (dump) {
+                dump = dump.toString('utf8')
+                let status = String(dump).substr(0, dump.indexOf("\n")).trim();
+                //console.log(status);
+                let data = dump.substring(dump.indexOf("\n") + 1).trim();
+                if (status == "True") {
+                    alert("The generated file is: " + data);
+                } else {
+                    alert("Error: " + data);
+                }
+            })
+            python.stderr.on('data', (data) => {
+                console.error(data.toString());
+            });
+            python.on('exit', (code) => {
+                console.log(`Process exited with code ${code}`);
+            });
         }
     })
-    python.stderr.on('data', (data) => {
-        console.error(data.toString());
-    });
-    python.on('exit', (code) => {
-        console.log(`Process exited with code ${code}`);
-    });
 }
 
 generateDataFields()
