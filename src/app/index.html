@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Doc Assist</title>
+
+    <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
 
     <style>
         * {
@@ -20,7 +22,6 @@
 
 <body>
 
-    <!-- <div class="container-fluid pt-4"> -->
     <div class="container-fluid">
         <div class="jumbotron" style="text-align: center;margin-top:10px;">
             <div class="display-4">
@@ -42,25 +43,29 @@
         </span>
     </div>
     <hr class="mb-3"/>
-    <div style="text-align:center">
-        <span style="margin-right:10px;" class="mb-2">
-            UTILITIES
-        </span>
-        <br />
-        <span>
-            <button id="input-converter-btn" style="margin: 0 auto; margin-left:10px;" class="btn btn-outline-dark my-3">
-                Data File Convertor (.csv, .json, .xml)
-            </button>
-            <button id="output-converter-btn" style="margin: 0 auto; margin-left:10px;" class="btn btn-outline-dark my-3">
-                Output File Convertor (.docx to other formats)
-            </button>
-        </span>
 
+    <div class="container" style="text-align:center">
+        <div style="margin-right:10px; margin-bottom:80px; font-size:2em; font-style:bold;" class="mb-2">
+            UTILITIES
+        </div>
+
+        <div class="btn-group-vertical">
+            <button id="input-converter-btn" class="btn btn-outline-dark btn-block">
+                DATA FILE CONVERTER
+            </button>
+            <button id="output-converter-btn" class="btn btn-outline-dark btn-block">
+                OUTPUT FILE CONVERTER
+            </button>
+            <button id="html-table-btn" class="btn btn-outline-dark btn-block">
+                HTML TABLE TO DOCX
+            </button>
+            <button id="database-btn" class="btn btn-outline-dark btn-block">
+                DATABASE INTEGRATIONS
+            </button>
+        </div>
     </div>
-    <script src="./jquery.js"></script>
+
     <script src="./selectLocalTemplate.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 
 </body>
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doc Assist</title>
+
+    <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />-->
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-sm-1"></div>
+            <div class="col-xl-8 col-lg-8 col-sm-12">
+                <form style="margin-top:100px; text-align:center;">
+                    <div class="form-group">
+                        <label for="url"></label>
+                        <input type="text" class="form-control" id="url" required placeholder="DATABASE URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="collection"></label>
+                        <input type="text" class="form-control" id="collection" required placeholder="COLLECTION OR TABLE NAME">
+                    </div>
+                    <div class="form-group">
+                        <label for="filename"></label>
+                        <input type="text" class="form-control" id="filename" required placeholder="FILE-NAME">
+                    </div>
+                    <button type="button" id = "data-btn" class="btn btn-outline-dark">EXPORT</button>
+                    <br/>
+                    <button type="button" id = "back" style="margin-top:20px" class="btn btn-outline-dark" >BACK TO HOME</button>
+                </form>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-sm-1"></div>
+        </div>
+    </div>
+
+    <script src="database-export.js"></script>
+</body>
+
+</html>
