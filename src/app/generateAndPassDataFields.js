@@ -50,12 +50,12 @@ let userData = {}
 function PassTheDataFields() {
     dialog.showOpenDialog({
         properties: ['openDirectory']
-    }).then(function (file) {
-        if (file === undefined || file.filePaths.length === 0) {
+    }).then(function (f) {
+        if (f === undefined || f.filePaths.length === 0) {
             alert("NO FILE WAS SELECTED.")
             PassTheDataFields()
         } else {
-            let outputFolder = file.filePaths[0]
+            let outputFolder = f.filePaths[0]
             for (let key in fields) {
                 let data_field = document.getElementById(`${fields[key]}`)
                 let data = data_field.value
