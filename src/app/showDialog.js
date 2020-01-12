@@ -51,7 +51,7 @@ function callPythonScript(file, filepath) {
             callPythonScript(file, filepath)
         } else {
             const outputFolderPath = outputFolder.filePaths[0]
-            let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\main_file_input.py", file, filepath, outputFolderPath]);
+            let python = require('child_process').spawn('python', [__dirname + "\\..\\python\\main_file_input.py", file, filepath, outputFolderPath]);
             python.on('error', (error) => {
                 dialog.showMessageBox({
                     title: 'Error',

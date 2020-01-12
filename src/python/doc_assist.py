@@ -11,7 +11,7 @@ import xmltodict
 from bs4 import BeautifulSoup
 import codecs
 
-NLP = False
+NLP = True
 count = 1
 
 

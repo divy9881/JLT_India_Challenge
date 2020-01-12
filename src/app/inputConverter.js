@@ -32,7 +32,7 @@ document.getElementById("convertButton").addEventListener("click", function () {
         let { remote } = require("electron")
         let inputFile = remote.getGlobal("getInputForConverter")()
 
-        let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\input_converter.py", inputFile, outputFile]);
+        let python = require('child_process').spawn('python', [__dirname + "\\..\\python\\input_converter.py", inputFile, outputFile]);
         python.on('error', (error) => {
             dialog.showMessageBox({
                 title: 'Error',

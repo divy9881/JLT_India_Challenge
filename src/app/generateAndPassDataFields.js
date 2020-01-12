@@ -9,7 +9,7 @@ function generateDataFields() {
 
     //remote.getGlobal("setFilename")(null)
 
-    let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\parse.py", file]);
+    let python = require('child_process').spawn('python', [__dirname + "\\..\\python\\parse.py", file]);
     python.on('error', (error) => {
         dialog.showMessageBox({
             title: 'Error',
@@ -63,7 +63,7 @@ function PassTheDataFields() {
             }
             let userDataStr = JSON.stringify(userData)
             //console.log(userData)
-            let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\doc_assist.py", file, userDataStr, outputFolder]);
+            let python = require('child_process').spawn('python', [__dirname + "\\..\\python\\doc_assist.py", file, userDataStr, outputFolder]);
             python.on('error', (error) => {
                 dialog.showMessageBox({
                     title: 'Error',

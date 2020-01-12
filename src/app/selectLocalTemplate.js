@@ -96,7 +96,7 @@ document.getElementById("html-table-btn").addEventListener("click", function () 
                 let path = filepath.slice(0,index)
                 let outputfile = path+".docx"
                 
-                let python = require('child_process').spawn('python37', [__dirname + "\\..\\python\\read_html.py", outputfile, filepath]);
+                let python = require('child_process').spawn('python', [__dirname + "\\..\\python\\read_html.py", outputfile, filepath]);
                 python.on('error', (error) => {
                     dialog.showMessageBox({
                         title: 'Error',
